@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Windsor",
+    "area": 200,
+    "location": "London",
+    "image": "https://www.ubm-development.com/magazin/wp-content/uploads/2020/03/kl-main-building-d-Kopie-1024x576.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Astoria",
+    "area": 300,
+    "location": "Paris",
+    "image": "https://images.adsttc.com/media/images/5f59/3263/63c0/17b7/7e00/0014/large_jpg/00FI_1.jpg?1599681075"
+  },
+  {
+    "id": 3,
+    "name": "Blue Lagoon",
+    "area": 150,
+    "location": "Amsterdam",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/WilderBuildingSummerSolstice.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Sofia Estate",
+    "area": 400,
+    "location": "Sofia",
+    "image": "https://www.stlouis-mo.gov/government/departments/planning/cultural-resources/images/Wainwright_124825_2.JPG"
+  },
+  {
+    "id": 5,
+    "name": "Varna Palace",
+    "area": 500,
+    "location": "Varna",
+    "image": "https://media.architecturaldigest.com/photos/579120ea46eb3e65136a5222/2:1/w_3499,h_1749,c_limit/buzzworthy-buildings-brooklyn-18.jpg"
+  }
+]

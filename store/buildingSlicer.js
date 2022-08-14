@@ -9,13 +9,13 @@ export const buildingSlicer = createSlice({
             state.push(action.payload);
         },
         update: (state, action) => {
-            state = state.map(el => {
-                if (el.id === action.payload.id) return el;
-                return {...action.payload};
-            });
+            const idx = state.findIndex(el => el.id === action.payload.id);
+            state[idx] = {...action.payload};
         },
         destroy: (state, action) => {
-            state = state.filter(el => el.id !== action.payload);
+            console.log('action payload', action.payload);
+            const idx = state.findIndex(el => el.id === action.payload);
+            state.splice(idx, 1);
         }
     },
 })

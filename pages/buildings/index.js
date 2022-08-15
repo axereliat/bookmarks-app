@@ -1,6 +1,7 @@
 import {Fragment, useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import toastr from 'toastr';
+import styles from './index.module.css';
 import BuildingFormModal from "../../components/BuildingFormModal";
 import ConfirmModal from "../../components/ConfirmModal";
 import {destroy} from "../../store/buildingSlicer";
@@ -75,9 +76,11 @@ export default function Buildings() {
                 building: buildingToEdit
             }}/>
             <div className="jumbotron">
-                <button className="btn btn-primary" onClick={() => toggleFormModal()}>Add building</button>
+                <div className="d-flex justify-content-end mb-2">
+                    <button className="btn btn-primary" onClick={() => toggleFormModal()}>Add building</button>
+                </div>
 
-                {buildings.length > 0 ? <table className="table">
+                {buildings.length > 0 ? <table className={styles.buildingsTable}>
                     <tbody>
                     <tr>
                         <th>Id</th>

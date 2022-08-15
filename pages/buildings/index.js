@@ -16,7 +16,18 @@ export default function Buildings() {
 
     const [loading, setLoading] = useState(false);
 
-    function toggleFormModal(cb) {
+    const [buildingToEdit, setBuildingToEdit] = useState({});
+
+    function toggleFormModal(cb, buildingId) {
+        setBuildingToEdit({});
+        if (typeof buildingId !== 'undefined') {
+            setSelectedBuildingId(buildingId);
+
+            if (buildingId === null) return;
+
+            const building = buildings.filter(b => b.id.toString() === buildingId.toString())[0];
+            setBuildingToEdit(building);
+        }
         setFormModalOpen(!formModalOpen);
         if (typeof cb !== 'undefined') {
             cb();
@@ -60,7 +71,8 @@ export default function Buildings() {
             }}/>
             <BuildingFormModal {...{
                 modalOpen: formModalOpen, toggle: toggleFormModal,
-                modalTitle: 'Add building'
+                modalTitle: selectedBuildingId ? 'Edit building' : 'Add building',
+                building: buildingToEdit
             }}/>
             <div className="jumbotron">
                 <button className="btn btn-primary" onClick={() => toggleFormModal()}>Add building</button>
@@ -86,7 +98,7 @@ export default function Buildings() {
                                      alt="no image"/> : 'No image'}</td>
                             <td>
                                 <div className="d-flex justify-content-between">
-                                    <button className="btn btn-secondary mr-2" onClick={() => toggleFormModal()}>Edit
+                                    <button className="btn btn-secondary mr-2" onClick={() => toggleFormModal(undefined, b.id)}>Edit
                                     </button>
                                     <button className="btn btn-danger"
                                             onClick={() => toggleConfirmModal(null, b.id)}>Delete

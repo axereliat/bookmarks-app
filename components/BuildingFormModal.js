@@ -1,20 +1,28 @@
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import FileBase64 from 'react-file-base64';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import toastr from "toastr";
 import {useDispatch, useSelector} from "react-redux";
-import {add} from "../store/buildingSlicer";
+import {add, update} from "../store/buildingSlicer";
 
-export default function BuildingFormModal({modalTitle, toggle, modalOpen}) {
+export default function BuildingFormModal({modalTitle, toggle, modalOpen, building}) {
 
     const buildings = useSelector(state => state.building);
     const dispatch = useDispatch();
 
-    const [id, setId] = useState('');
-    const [name, setName] = useState('');
-    const [area, setArea] = useState('');
-    const [location, setLocation] = useState('');
-    const [image, setImage] = useState('');
+    const [id, setId] = useState(building.id || '');
+    const [name, setName] = useState(building.name || '');
+    const [area, setArea] = useState(building.area || '');
+    const [location, setLocation] = useState(building.location || '');
+    const [image, setImage] = useState(building.image || '');
+
+    useEffect(() => {
+        setId(building.id || '');
+        setName(building.name || '');
+        setArea(building.area || '');
+        setLocation(building.location || '');
+        setImage(building.image || '');
+    }, [building]);
 
     const [loading, setLoading] = useState(false);
 
@@ -29,7 +37,7 @@ export default function BuildingFormModal({modalTitle, toggle, modalOpen}) {
             setLoading(false);
             const existsId = buildings.buildings.filter(b => b.id.toString() === id.toString()).length > 0;
 
-            if (id && existsId) {
+            if (id && existsId && typeof building.id === 'undefined') {
                 toastr.error('Building with id ' + id + ' already exists.');
                 return;
             }
@@ -38,7 +46,11 @@ export default function BuildingFormModal({modalTitle, toggle, modalOpen}) {
                 return;
             }
 
-            dispatch(add({id, name, area, location, image}));
+            if (typeof building.id === 'undefined') {
+                dispatch(add({id, name, area, location, image}));
+            } else {
+                dispatch(update({id, name, area, location, image}));
+            }
 
             toastr.success('The building was successfully added.');
 
@@ -55,14 +67,14 @@ export default function BuildingFormModal({modalTitle, toggle, modalOpen}) {
     }
 
     return (
-        <Modal isOpen={modalOpen} toggle={toggle} size="l">
-            <ModalHeader toggle={toggle}>{modalTitle}</ModalHeader>
+        <Modal isOpen={modalOpen} toggle={() => toggle(clearFields)} size="l">
+            <ModalHeader toggle={() => toggle(clearFields)}>{modalTitle}</ModalHeader>
             <ModalBody>
                 <form>
                     <div className="form-group">
                         <label htmlFor="buildingId">Id<small className="text-danger">*</small></label>
                         <input type="number" className="form-control" id="buildingId"
-                               onChange={e => setId(e.target.value)} value={id}/>
+                               onChange={e => setId(e.target.value)} value={id} disabled={typeof building.id !== 'undefined'}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="name">Name<small className="text-danger">*</small></label>

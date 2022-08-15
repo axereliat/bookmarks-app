@@ -1,10 +1,9 @@
 import {Fragment, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import toastr from 'toastr';
-import buildingsData from '../../data/buildings.json';
 import BuildingFormModal from "../../components/BuildingFormModal";
 import ConfirmModal from "../../components/ConfirmModal";
-import {destroy, loadData} from "../../store/buildingSlicer";
+import {destroy} from "../../store/buildingSlicer";
 
 export default function Buildings() {
 
@@ -16,14 +15,6 @@ export default function Buildings() {
     const [selectedBuildingId, setSelectedBuildingId] = useState(null);
 
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        setLoading(true);
-        setTimeout(() => {
-            dispatch(loadData(buildingsData));
-            setLoading(false);
-        }, 500);
-    }, []);
 
     function toggleFormModal(cb) {
         setFormModalOpen(!formModalOpen);

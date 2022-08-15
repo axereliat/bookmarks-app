@@ -1,14 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
+import buildings from '../data/buildings.json';
 
-const initialState = {buildings: []};
+const initialState = {buildings};
 
 export const buildingSlicer = createSlice({
     name: 'building',
     initialState,
     reducers: {
-        loadData: (state, action) => {
-            state.buildings = action.payload;
-        },
         add: (state, action) => {
             state.buildings.push(action.payload);
         },

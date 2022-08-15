@@ -1,25 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit'
-import jsonData from '../data/buildings.json';
+
+const initialState = {buildings: []};
 
 export const buildingSlicer = createSlice({
     name: 'building',
-    initialState: jsonData,
+    initialState,
     reducers: {
+        loadData: (state, action) => {
+            state.buildings = action.payload;
+        },
         add: (state, action) => {
-            state.push(action.payload);
+            state.buildings.push(action.payload);
         },
         update: (state, action) => {
-            const idx = state.findIndex(el => el.id === action.payload.id);
-            state[idx] = {...action.payload};
+            const idx = state.buildings.findIndex(el => el.id === action.payload.id);
+            state.buildings[idx] = {...action.payload};
         },
         destroy: (state, action) => {
-            console.log('action payload', action.payload);
-            const idx = state.findIndex(el => el.id === action.payload);
-            state.splice(idx, 1);
+            const idx = state.buildings.findIndex(el => el.id === action.payload);
+            state.buildings.splice(idx, 1);
         }
     },
 })
 
-export const {add, update, destroy} = buildingSlicer.actions;
+export const {add, update, destroy, loadData} = buildingSlicer.actions;
 
 export default buildingSlicer.reducer;

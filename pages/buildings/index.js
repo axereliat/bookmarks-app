@@ -1,14 +1,16 @@
 import {Fragment, useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
+import {FaPlus, FaPen, FaTrash, FaUserCircle} from 'react-icons/fa'
 import toastr from 'toastr';
 import styles from './index.module.css';
 import BuildingFormModal from "../../components/BuildingFormModal";
 import ConfirmModal from "../../components/ConfirmModal";
-import {destroy} from "../../store/buildingSlicer";
+import {destroy, loadData} from "../../store/buildingSlicer";
 
 export default function Buildings() {
 
     const buildings = useSelector(state => state.building.buildings);
+    const dataLoaded = useSelector(state => state.building.isLoaded);
     const dispatch = useDispatch();
 
     const [formModalOpen, setFormModalOpen] = useState(false);
@@ -18,6 +20,17 @@ export default function Buildings() {
     const [loading, setLoading] = useState(false);
 
     const [buildingToEdit, setBuildingToEdit] = useState({});
+
+    useEffect(() => {
+        if (!dataLoaded) {
+            setLoading(true);
+            setTimeout(() => {
+                dispatch(loadData());
+                setLoading(false);
+            }, 500);
+        }
+    }, []);
+    console.log('buiddasdasdasd', buildings);
 
     function toggleFormModal(cb, buildingId) {
         setBuildingToEdit({});
@@ -75,9 +88,15 @@ export default function Buildings() {
                 modalTitle: selectedBuildingId ? 'Edit building' : 'Add building',
                 building: buildingToEdit
             }}/>
+            <nav className="navbar navbar-light bg-primary">
+                <span className="navbar-brand mb-0 h1 text-white">Welcome</span>
+                <FaUserCircle color="white" style={{width: 32, height: 32}}/>
+            </nav>
             <div className="jumbotron">
                 <div className="d-flex justify-content-end mb-2">
-                    <button className="btn btn-primary" onClick={() => toggleFormModal()}>Add building</button>
+                    <button className="btn btn-primary" onClick={() => toggleFormModal()}>
+                        <FaPlus style={{width: 16, height: 16}}/>
+                    </button>
                 </div>
 
                 {buildings.length > 0 ? <table className={styles.buildingsTable}>
@@ -101,10 +120,13 @@ export default function Buildings() {
                                      alt="no image"/> : 'No image'}</td>
                             <td>
                                 <div className="d-flex justify-content-between">
-                                    <button className="btn btn-secondary mr-2" onClick={() => toggleFormModal(undefined, b.id)}>Edit
+                                    <button className="btn btn-secondary mr-2"
+                                            onClick={() => toggleFormModal(undefined, b.id)}>
+                                        <FaPen style={{width: 16, height: 16}}/>
                                     </button>
                                     <button className="btn btn-danger"
-                                            onClick={() => toggleConfirmModal(null, b.id)}>Delete
+                                            onClick={() => toggleConfirmModal(null, b.id)}>
+                                        <FaTrash style={{width: 16, height: 16}}/>
                                     </button>
                                 </div>
                             </td>
